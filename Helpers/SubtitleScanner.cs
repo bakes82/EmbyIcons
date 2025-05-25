@@ -3,65 +3,77 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace EmbyIcons.Helpers
+namespace EmbyIcons.Helpers;
+
+internal static class SubtitleScanner
 {
-    internal static class SubtitleScanner
+    public static void ScanExternalSubtitles(string? mediaOrInputPath,
+                                             HashSet<string> subtitleLangs,
+                                             bool enableLogging,
+                                             IEnumerable<string>? extensions = null)
     {
-        public static void ScanExternalSubtitles(string? mediaOrInputPath, HashSet<string> subtitleLangs, bool enableLogging, IEnumerable<string>? extensions = null)
+        // REMOVED: subtitleLangs.Clear();
+
+        if (string.IsNullOrEmpty(mediaOrInputPath)) return;
+
+        var folderPath = Path.GetDirectoryName(mediaOrInputPath);
+        if (string.IsNullOrEmpty(folderPath) || !Directory.Exists(folderPath)) return;
+
+        var mediaFileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaOrInputPath)
+                                          .ToLowerInvariant();
+
+        var exts = extensions?.Select(e => e.StartsWith(".") ? e : "." + e)
+                             .ToList() ??
+                   new List<string>
+                   {
+                       ".srt"
+                   };
+
+        foreach (var ext in exts)
         {
-            // REMOVED: subtitleLangs.Clear();
+            var possibleSubFiles = Directory.GetFiles(folderPath, mediaFileNameWithoutExt + "*" + ext);
 
-            if (string.IsNullOrEmpty(mediaOrInputPath))
-                return;
-
-            var folderPath = Path.GetDirectoryName(mediaOrInputPath);
-            if (string.IsNullOrEmpty(folderPath) || !Directory.Exists(folderPath))
-                return;
-
-            var mediaFileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaOrInputPath).ToLowerInvariant();
-
-            var exts = extensions?.Select(e => e.StartsWith(".") ? e : "." + e).ToList() ?? new List<string> { ".srt" };
-
-            foreach (var ext in exts)
+            foreach (var file in possibleSubFiles)
             {
-                var possibleSubFiles = Directory.GetFiles(folderPath, mediaFileNameWithoutExt + "*" + ext);
+                var fileName = Path.GetFileNameWithoutExtension(file)
+                                   .ToLowerInvariant();
 
-                foreach (var file in possibleSubFiles)
+                // Extract language code explicitly from the filename after media name
+                var langCode = ExtractLangCodeFromFilename(fileName, mediaFileNameWithoutExt);
+
+                if (!string.IsNullOrEmpty(langCode))
                 {
-                    var fileName = Path.GetFileNameWithoutExtension(file).ToLowerInvariant();
+                    langCode = LanguageHelper.NormalizeLangCode(langCode);
+                    subtitleLangs.Add(langCode);
 
-                    // Extract language code explicitly from the filename after media name
-                    var langCode = ExtractLangCodeFromFilename(fileName, mediaFileNameWithoutExt);
-
-                    if (!string.IsNullOrEmpty(langCode))
-                    {
-                        langCode = LanguageHelper.NormalizeLangCode(langCode);
-                        subtitleLangs.Add(langCode);
-
-                        if (enableLogging)
-                            LoggingHelper.Log(true, $"Detected subtitle language '{langCode}' from '{file}'.");
-                    }
+                    /*if (enableLogging)
+                        LoggingHelper.Log(true, $"Detected subtitle language '{langCode}' from '{file}'.");*/
                 }
             }
         }
+    }
 
-        private static string? ExtractLangCodeFromFilename(string subtitleFileName, string mediaFileNameWithoutExt)
-        {
-            // Remove media filename from subtitle filename
-            if (!subtitleFileName.StartsWith(mediaFileNameWithoutExt))
-                return null;
+    private static string? ExtractLangCodeFromFilename(string subtitleFileName, string mediaFileNameWithoutExt)
+    {
+        // Remove media filename from subtitle filename
+        if (!subtitleFileName.StartsWith(mediaFileNameWithoutExt)) return null;
 
-            var remainder = subtitleFileName.Substring(mediaFileNameWithoutExt.Length).Trim('.', '_', '-', ' ');
+        var remainder = subtitleFileName.Substring(mediaFileNameWithoutExt.Length)
+                                        .Trim('.', '_', '-', ' ');
 
-            if (string.IsNullOrWhiteSpace(remainder))
-                return null;
+        if (string.IsNullOrWhiteSpace(remainder)) return null;
 
-            var langPart = remainder.Split(new[] { '.', '_', '-', ' ' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+        var langPart = remainder.Split(new[]
+                                       {
+                                           '.',
+                                           '_',
+                                           '-',
+                                           ' '
+                                       }, StringSplitOptions.RemoveEmptyEntries)
+                                .FirstOrDefault();
 
-            if (!string.IsNullOrWhiteSpace(langPart) && langPart.Length >= 2 && langPart.Length <= 5)
-                return langPart;
+        if (!string.IsNullOrWhiteSpace(langPart) && langPart.Length >= 2 && langPart.Length <= 5) return langPart;
 
-            return null;
-        }
+        return null;
     }
 }

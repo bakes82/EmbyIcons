@@ -1,4 +1,4 @@
-﻿using EmbyIcons.Helpers;
+﻿/*using EmbyIcons.Helpers;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Model.Drawing;
@@ -184,4 +184,5 @@ namespace EmbyIcons
             }
         }
     }
-}
+}*/
+

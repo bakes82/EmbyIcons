@@ -1,4 +1,4 @@
-﻿using EmbyIcons.Helpers;
+﻿/*using EmbyIcons.Helpers;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Entities.TV;
@@ -172,4 +172,5 @@ namespace EmbyIcons
             _iconCacheManager.Dispose();
         }
     }
-}
+}*/
+

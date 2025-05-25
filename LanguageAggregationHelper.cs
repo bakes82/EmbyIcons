@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +10,12 @@ namespace EmbyIcons
 {
     public partial class EmbyIconsEnhancer
     {
-        internal async Task<(HashSet<string>, HashSet<string>)> GetAggregatedLanguagesForSeriesAsync(Series series, PluginOptions options, CancellationToken cancellationToken)
+        internal async Task<(HashSet<string>, HashSet<string>)> GetAggregatedLanguagesForSeriesAsync(Series series, PluginUIOptions uiOptions, CancellationToken cancellationToken)
         {
-            var audioLangsAllowed = Helpers.LanguageHelper.ParseLanguageList(options.AudioLanguages)
+            var audioLangsAllowed = Helpers.LanguageHelper.ParseLanguageList(uiOptions.AudioLanguages)
                 .Select(Helpers.LanguageHelper.NormalizeLangCode).ToHashSet(System.StringComparer.OrdinalIgnoreCase);
 
-            var subtitleLangsAllowed = Helpers.LanguageHelper.ParseLanguageList(options.SubtitleLanguages)
+            var subtitleLangsAllowed = Helpers.LanguageHelper.ParseLanguageList(uiOptions.SubtitleLanguages)
                 .Select(Helpers.LanguageHelper.NormalizeLangCode).ToHashSet(System.StringComparer.OrdinalIgnoreCase);
 
             var query = new InternalItemsQuery
@@ -45,13 +45,13 @@ namespace EmbyIcons
                 var epAudioLangs = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
                 var epSubtitleLangs = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
 
-                await Helpers.MediaInfoDetector.DetectLanguagesFromMediaAsync(ep.Path!, epAudioLangs, epSubtitleLangs, options.EnableLogging);
+                await Helpers.MediaInfoDetector.DetectLanguagesFromMediaAsync(ep.Path!, epAudioLangs, epSubtitleLangs, uiOptions.EnableLogging);
 
                 Helpers.SubtitleScanner.ScanExternalSubtitles(
                     ep.Path!,
                     epSubtitleLangs,
-                    options.EnableLogging,
-                    options.SubtitleFileExtensions?.Split(',', System.StringSplitOptions.RemoveEmptyEntries) ?? new[] { ".srt" });
+                    uiOptions.EnableLogging,
+                    uiOptions.SubtitleFileExtensions?.Split(',', System.StringSplitOptions.RemoveEmptyEntries) ?? new[] { ".srt" });
 
                 episodeAudioLangCache[ep.Id] = epAudioLangs;
                 episodeSubtitleLangCache[ep.Id] = epSubtitleLangs;
@@ -77,13 +77,14 @@ namespace EmbyIcons
                     subtitleLangsDetected.Add(lang);
             }
 
-            if (!options.ShowAudioIcons)
+            if (!uiOptions.ShowAudioIcons)
                 audioLangsDetected.Clear();
 
-            if (!options.ShowSubtitleIcons)
+            if (!uiOptions.ShowSubtitleIcons)
                 subtitleLangsDetected.Clear();
 
             return (audioLangsDetected, subtitleLangsDetected);
         }
     }
-}
+}*/
+

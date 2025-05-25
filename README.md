@@ -6,13 +6,15 @@
 
 ## Overview
 
-**EmbyIcons** is a plugin for [Emby Server](https://emby.media/) that overlays audio and subtitle language icons directly onto media posters. This provides a quick visual summary of available languages in your media, making browsing your library more informative and visually appealing.
+**EmbyIcons** is a plugin for [Emby Server](https://emby.media/) that overlays audio and subtitle language icons
+directly onto media posters. This provides a quick visual summary of available languages in your media, making browsing
+your library more informative and visually appealing.
 
 ---
 
 ## Features
 
-- Show avilable audio and subtitle langguages on movie and tv show posters (Please read the troubleshooting on TV shows) 
+- Show avilable audio and subtitle langguages on movie and tv show posters (Please read the troubleshooting on TV shows)
 - Supports detection of external subtitle files (`.srt`).
 - Overlays language icons on posters with user-configurable size and alignment.
 - Restricts icon overlay to selected libraries by name.
@@ -26,7 +28,8 @@
 
 ## Installation
 
-1. Make sure you have the latest Emby version as this plugin might be incompatible with older and non x64/amd64 versions!
+1. Make sure you have the latest Emby version as this plugin might be incompatible with older and non x64/amd64
+   versions!
 2. Place the EmbyIcons.dll into your Emby Server's plugin directory.
 3. Restart Emby Server to load the plugin.
 4. Open the Emby Server dashboard and navigate to **Plugins**.
@@ -36,34 +39,36 @@
 
 ## Configuration Options
 
-| Setting                      | Description                                                                                      |
-|------------------------------|--------------------------------------------------------------------------------------------------|
-| **Icons Folder Path**         | Directory containing language icon PNG files (e.g., `eng.png`, `srt.eng.png`). Note: Must supply own icons, i suggest 100x100 in size.|
-| **Icon Size**                 | Size of icons as a percentage of the poster’s shorter side (e.g., 10%).                           |
-| **Audio Icon Alignment**      | Corner where audio icons are displayed (`TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`).      |
-| **Subtitle Icon Alignment**   | Corner where subtitle icons are displayed.                                                        |
-| **Audio Languages to Detect** | Comma-separated list of ISO language codes for audio streams to overlay icons for.                |
-| **Subtitle Languages to Detect** | Comma-separated list of ISO language codes for subtitle streams.                               |
-| **Show Audio Icons**          | Enable or disable audio language icon overlays.                                                   |
-| **Show Subtitle Icons**       | Enable or disable subtitle icon overlays.                                                         |
-| **Restrict to Libraries**     | Comma-separated list of library names to restrict icon overlays to; leave empty for all libraries.|
-| **Enable Logging**            | Enable or disable plugin logging.                                                                 |
-| **Log Folder Path**           | Directory where plugin logs are saved.                                                            |
+| Setting                          | Description                                                                                                                            |
+|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| **Icons Folder Path**            | Directory containing language icon PNG files (e.g., `eng.png`, `srt.eng.png`). Note: Must supply own icons, i suggest 100x100 in size. |
+| **Icon Size**                    | Size of icons as a percentage of the poster’s shorter side (e.g., 10%).                                                                |
+| **Audio Icon Alignment**         | Corner where audio icons are displayed (`TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`).                                           |
+| **Subtitle Icon Alignment**      | Corner where subtitle icons are displayed.                                                                                             |
+| **Audio Languages to Detect**    | Comma-separated list of ISO language codes for audio streams to overlay icons for.                                                     |
+| **Subtitle Languages to Detect** | Comma-separated list of ISO language codes for subtitle streams.                                                                       |
+| **Show Audio Icons**             | Enable or disable audio language icon overlays.                                                                                        |
+| **Show Subtitle Icons**          | Enable or disable subtitle icon overlays.                                                                                              |
+| **Restrict to Libraries**        | Comma-separated list of library names to restrict icon overlays to; leave empty for all libraries.                                     |
+| **Enable Logging**               | Enable or disable plugin logging.                                                                                                      |
+| **Log Folder Path**              | Directory where plugin logs are saved.                                                                                                 |
 
 > **Important:**  
-> _Icons must me named "eng.png" for audio tracks and "srt.eng.png" for subtitles, change eng with the language code you want like dan or jpn._
+> _Icons must me named "eng.png" for audio tracks and "srt.eng.png" for subtitles, change eng with the language code you
+want like dan or jpn._
 
 ---
 
 ## Troubleshooting
 
-- When chaging an icon for another of the same name sometimes a metadata refresh (with new images and/or server restart might be needed, not much i can do about that.
+- When chaging an icon for another of the same name sometimes a metadata refresh (with new images and/or server restart
+  might be needed, not much i can do about that.
 - For icons to show on TV show posters ALL episodes must contain the same language audio and/or subtitles.
-- You need to supply your own icons. 
-- Verify the icon folder path contains correctly named PNG icons for your languages.  
+- You need to supply your own icons.
+- Verify the icon folder path contains correctly named PNG icons for your languages.
 - Library names might need quotetation marks around them on some systems eg. "Movies". I'm looking into this.
-- Check the `EmbyIcons.log` file (in the configured log folder) for processing details and errors.  
-- Ensure media files have proper language tags on audio and subtitle streams.  
+- Check the `EmbyIcons.log` file (in the configured log folder) for processing details and errors.
+- Ensure media files have proper language tags on audio and subtitle streams.
 
 ---
 
